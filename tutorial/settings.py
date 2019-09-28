@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     # dodajemy example, by app widziała połączenie
     'example',
     'bootstrap3',
+    'rest_framework',
+
+
 ]
 # rzeczy związane z bezpieczeństwem, tokeny, identyfikacja
 MIDDLEWARE = [
