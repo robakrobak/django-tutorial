@@ -20,10 +20,10 @@ from example.views import hello_world, hello_name, hello_world_template, simple_
     PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView
 
 urlpatterns = [
-    path("hello/", hello_world),
+    path("hello/", hello_world, name="hello_world"),
     path("hello/<str:name>/", hello_name),
     path('admin/', admin.site.urls),
-    path('hello-template/', hello_world_template),
+    path('hello-template/', hello_world_template, name='hello_world_template'),
     path('simple-view/', simple_list_view),
     path("movie_list_by_class_view/", MovieListView.as_view(), name='movie_list'),
     path("genre_list_by_class_view/", GenreListView.as_view(), name='genre_list'),

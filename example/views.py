@@ -13,7 +13,7 @@ from example.forms import MovieForm, GenreForm
 
 
 def hello_world(request):  # przyjmuje wartości z przeglądarki, metadane itp.
-    return HttpResponse('Hello World! Mam dwa koty i chciałbym mieć wiewiórkę rudo-niebieską.')
+    return HttpResponse('Hello Worldo!')
 
 
 def hello_name(request, name):
