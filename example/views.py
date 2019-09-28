@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, reverse
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from example.models import Movie, Genre
 from example.forms import MovieForm, GenreForm
@@ -54,7 +54,7 @@ class PostEditView(UpdateView):
     template_name = "add.html"
 
     @property
-    def get_success_url(self):
+    def success_url(self):
         return reverse("movie_list")
 
 
@@ -71,5 +71,16 @@ class GenreEditView(UpdateView):
     template_name = "add.html"
 
     @property
-    def get_success_url(self):
+    def success_url(self):
         return reverse("movie_list")
+
+
+class PostDeleteView(DeleteView):  #obejrzyj sobie list HTML
+    model = Movie
+    template_name = "delete.html"
+
+    @property
+    def success_url(self):
+        return reverse("movie_list")
+
+

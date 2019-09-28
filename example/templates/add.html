@@ -1,5 +1,15 @@
-<form method="post">
+{% extends 'index.html' %}
+{% block content %}
+
+<p>
+    Submit changes to: {{ object }}?
+</p>
+
+<form action="" method="POST">
 {% csrf_token %}
 {{ form }}
-<input type="submit">
+<input type="submit" value="Yes, change it.">
 </form>
+
+
+{% endblock %}

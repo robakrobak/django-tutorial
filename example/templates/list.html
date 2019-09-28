@@ -16,7 +16,12 @@
     <div class="panel-body">
         <ul>
             {% for movie in movies %}
-            <li> {{ movie.name|upper }}</li>
+            <li>
+                {{ movie.id }}
+                {{ movie.name|upper }}
+                <a href="{% url 'movie_edit' pk=movie.id %}"<b>Edit</b> </a>
+                <a href="{% url 'movie_delete' pk=movie.id %}"<b>Delete</b> </a>
+            </li>
             {% endfor %}
         </ul>
     </div>

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from example.views import hello_world, hello_name, hello_world_template, simple_list_view, MovieListView, GenreListView, \
-    PostCreateView, PostEditView, GenreEditView, GenreCreateView
+    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView
 
 urlpatterns = [
     path("hello/", hello_world),
@@ -31,4 +31,5 @@ urlpatterns = [
     path("movie/edit/<int:pk>/", PostEditView.as_view(), name="movie_edit"),
     path("genre/add/", GenreCreateView.as_view(), name="genre_add"),
     path("genre/edit/<int:pk>/", GenreEditView.as_view(), name="genre_edit"),
+    path("movie/delete/<int:pk>/", PostDeleteView.as_view(), name="movie_delete"),
 ]
