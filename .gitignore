@@ -2,6 +2,7 @@
 
 
 # pythonowskie
+../django-tutorial/
 ../venv/
 __pycache__/
 *.py[cod]
