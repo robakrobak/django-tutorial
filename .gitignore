@@ -2,8 +2,7 @@
 
 
 # pythonowskie
-../django-tutorial/
-../venv/
+venv/
 __pycache__/
 *.py[cod]
 
@@ -16,4 +15,6 @@ __pycache__/
 
 # baza danych - nie wysyłamy, bo cały czas mogą się dodawać pliki i zawalić repozytorium
 db.sqlite3
+
+
 
