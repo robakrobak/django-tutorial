@@ -42,9 +42,13 @@ class SimpleTestCase(TestCase):
         )
         self.assertTrue(form.is_valid())
 
-    def test_genre_edit(self):
+    def test_genre(self):
         form = GenreForm(data={
             'name': 'Komedia'
         })
         self.assertTrue(form.is_valid())
+
+    def test_genre_edit(self):
+        form = GenreForm(instance= self.genre)
+        self.assertTrue(form.initial['name'], 'Horror')
 
