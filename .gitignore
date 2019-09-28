@@ -1,0 +1,18 @@
+# gitignore example = w google poszukaj
+
+
+# pythonowskie
+../venv/
+__pycache__/
+*.py[cod]
+
+# to są ustawienia programu, środowisko programu
+.idea/
+# cisual code
+.vscode/
+# dla maców
+*.DS_Store
+
+# baza danych - nie wysyłamy, bo cały czas mogą się dodawać pliki i zawalić repozytorium
+db.sqlite3
+
