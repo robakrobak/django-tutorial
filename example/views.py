@@ -11,6 +11,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from example.models import Movie, Genre
 from example.forms import MovieForm, GenreForm
 
+# do serializers importy
+from rest_framework import viewsets
+from example.serializers import MovieSerializer
+from example.models import Movie
+
 
 def hello_world(request):  # przyjmuje wartości z przeglądarki, metadane itp.
     return HttpResponse('Hello Worldo!')
@@ -84,3 +89,8 @@ class PostDeleteView(DeleteView):  #obejrzyj sobie list HTML
         return reverse("movie_list")
 
 
+# WIDOKI BAZUJĄCE NA naszym pliku SERIALIZERS.PY
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serizalizer_class = MovieSerializer

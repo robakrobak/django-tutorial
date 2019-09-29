@@ -5,7 +5,7 @@ from example.models import Movie
 
 class MovieSerializer(serializers.ModelSerializer):
     """
-    Serializing all the Moviesz
+    Serializing all the Movies
     """
 
     class Meta:
