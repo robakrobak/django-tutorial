@@ -14,9 +14,8 @@ from example.forms import MovieForm, GenreForm
 # do serializers importy
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from example.serializers import MovieSerializer, GenreSerializer, MovieMiniSerializer
-
-
 
 
 def hello_world(request):  # przyjmuje wartości z przeglądarki, metadane itp.
@@ -99,10 +98,10 @@ class PostDeleteView(DeleteView):  # obejrzyj sobie list HTML
 
 
 class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all()
+    queryset = Movie.objects.filter(is_delete=False)
     serializer_class = MovieSerializer
 
-# chwilowo zakomentowalismy by def retreive nie miał ograniczonego wyszukiwania do Comedy
+    # chwilowo zakomentowalismy by def retreive nie miał ograniczonego wyszukiwania do Comedy
     # def get_queryset(self):
     #     queryset = Movie.objects.filter(genre__name="Comedy")
     #     return queryset
@@ -113,7 +112,14 @@ class MovieViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = MovieSerializer(instance)  #self.serializer.class
+        serializer = MovieSerializer(instance)  # self.serializer.class
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.is_delete = True
+        instance.save()
+        serializer = MovieSerializer(instance)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -122,7 +128,13 @@ class MovieViewSet(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
+    @action(detail=True, methods=["post"])
+    def viewed(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.viewed = request.data.get("viewed",True)
+        instance.save()
+        serializer = MovieSerializer(instance)
+        return Response(serializer.data)
 
 
 class GenreViewSet(viewsets.ModelViewSet):
