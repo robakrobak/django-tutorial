@@ -20,7 +20,8 @@ class Actor(models.Model):
     date_of_death = models.DateField(null=True, default=None)
 
     def __str__(self):
-        return self.first_name, self.last_name
+        actor = str(f"{self.first_name} {self.last_name}")
+        return actor
 
 
 class Movie(models.Model):
