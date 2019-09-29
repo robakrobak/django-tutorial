@@ -15,9 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+# importy do serializers
+from django.conf.urls import include, url
+# from django.contrib import admin   - bo to juz mamy
+# from django.urls import path
+from rest_framework import routers
 
 from example.views import hello_world, hello_name, hello_world_template, simple_list_view, MovieListView, GenreListView, \
-    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView
+    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView, MovieViewSet
+
+router = routers.DefaultRouter()
+router.register(r"movies", MovieViewSet)
+
 
 urlpatterns = [
     path("hello/", hello_world, name="hello_world"),
@@ -32,4 +41,7 @@ urlpatterns = [
     path("genre/add/", GenreCreateView.as_view(), name="genre_add"),
     path("genre/edit/<int:pk>/", GenreEditView.as_view(), name="genre_edit"),
     path("movie/delete/<int:pk>/", PostDeleteView.as_view(), name="movie_delete"),
+    path("api-auth/", include("rest_framework.urls")),
+    path("", include(router.urls)),
+
 ]
