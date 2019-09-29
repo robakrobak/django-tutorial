@@ -12,8 +12,10 @@ from example.models import Movie, Genre
 from example.forms import MovieForm, GenreForm
 
 # do serializers importy
-from rest_framework import viewsets
-from example.serializers import MovieSerializer
+from rest_framework import viewsets, status, filters
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from example.serializers import MovieSerializer, GenreSerializer, MovieMiniSerializer
 from example.models import Movie
 
 
@@ -92,5 +94,44 @@ class PostDeleteView(DeleteView):  #obejrzyj sobie list HTML
 # WIDOKI BAZUJĄCE NA naszym pliku SERIALIZERS.PY
 
 class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all()
-    serizalizer_class = MovieSerializer
+    queryset = Movie.objects.filter(is_delete=False)
+    serializer_class = MovieSerializer
+
+    # def get_queryset(self):
+    #     queryset = Movie.objects.filter(genre__name="Horror")
+    #     return queryset
+
+    def list(self, request, *args, **kwargs):
+        serializer = MovieMiniSerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = MovieSerializer(instance)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            return super().create(request, *args, **kwargs)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.is_delete = True
+        instance.save()
+        serializer = MovieSerializer(instance)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def viewed(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.viewed = request.data.get("viewed", True)
+        instance.save()
+        serializer = MovieSerializer(instance)
+        return Response(serializer.data)
+
+class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
