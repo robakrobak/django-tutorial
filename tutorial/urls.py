@@ -20,13 +20,16 @@ from django.conf.urls import include, url
 # from django.contrib import admin   - bo to juz mamy
 # from django.urls import path
 from rest_framework import routers
+from rest_framework.authtoken import views
 
 from example.views import hello_world, hello_name, hello_world_template, simple_list_view, MovieListView, GenreListView, \
-    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView, MovieViewSet, GenreViewSet
+    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView, MovieViewSet, GenreViewSet, \
+    ActorsViewSet
 
 router = routers.DefaultRouter()
 router.register(r"movies", MovieViewSet)
 router.register(r"genres", GenreViewSet)
+router.register(r"actors", ActorsViewSet)
 
 
 urlpatterns = [
@@ -44,5 +47,6 @@ urlpatterns = [
     path("movie/delete/<int:pk>/", PostDeleteView.as_view(), name="movie_delete"),
     path("api-auth/", include("rest_framework.urls")),
     path("", include(router.urls)),
+    path("api-token-auth/", views.obtain_auth_token),
 
 ]

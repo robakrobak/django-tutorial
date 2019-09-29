@@ -8,15 +8,14 @@ from django.shortcuts import render, reverse
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from example.models import Movie, Genre
+from example.models import Movie, Genre, Actor
 from example.forms import MovieForm, GenreForm
 
 # do serializers importy
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from example.serializers import MovieSerializer, GenreSerializer, MovieMiniSerializer
-from example.models import Movie
+from example.serializers import MovieSerializer, GenreSerializer, MovieMiniSerializer, ActorsSerializer
 
 
 def hello_world(request):  # przyjmuje wartości z przeglądarki, metadane itp.
@@ -96,14 +95,29 @@ class PostDeleteView(DeleteView):  #obejrzyj sobie list HTML
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.filter(is_delete=False)
     serializer_class = MovieSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ("name",)
+    # filter_fields = ("name", "year", "viewed")          #ale to filrowanie łatwiej obejść tak za pomocą django_filters
 
-    # def get_queryset(self):
-    #     queryset = Movie.objects.filter(genre__name="Horror")
-    #     return queryset
+    def get_queryset(self):
+        # query_params = self.request.query_params        #ta funckja pobiera nam parametry które posiada nasz request
+        queryset = self.queryset
 
-    def list(self, request, *args, **kwargs):
-        serializer = MovieMiniSerializer(self.queryset, many=True)
-        return Response(serializer.data)
+        # year = query_params.get("year")                 #dzięki temu za / możemy tworzyć filtry np movies/?year=1992
+        # viewed = query_params.get("viewed")
+        #
+        # if year:
+        #     queryset = queryset.filter(year=year)
+        #
+        # if viewed:
+        #     queryset = queryset.filter(viewed=viewed)
+        #
+        return queryset
+
+
+    # def list(self, request, *args, **kwargs):
+    #     serializer = MovieMiniSerializer(self.get_queryset(), many=True)
+    #     return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -134,4 +148,8 @@ class MovieViewSet(viewsets.ModelViewSet):
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+
+class ActorsViewSet(viewsets.ModelViewSet):
+    queryset = Actor.objects.all()
+    serializer_class = ActorsSerializer
 
