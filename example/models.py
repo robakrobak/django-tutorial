@@ -19,6 +19,7 @@ class Movie(models.Model):
     released = models.CharField(max_length=128)
     created_on = models.DateTimeField(auto_now_add=True)
     genre = models.ForeignKey(Genre, on_delete=models.DO_NOTHING)  # moze byc CASCADE - wszytsko co poniżej też usunie
+    viewed = models.BooleanField(default=False)
     # rating = models.FloatField(null=True) # lub Default=0
 
     def __str__(self):

@@ -22,10 +22,11 @@ from django.conf.urls import include, url
 from rest_framework import routers
 
 from example.views import hello_world, hello_name, hello_world_template, simple_list_view, MovieListView, GenreListView, \
-    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView, MovieViewSet
+    PostCreateView, PostEditView, GenreEditView, GenreCreateView, PostDeleteView, MovieViewSet, GenreViewSet
 
 router = routers.DefaultRouter()
 router.register(r"movies", MovieViewSet)
+router.register(r"genres", GenreViewSet)
 
 
 urlpatterns = [
